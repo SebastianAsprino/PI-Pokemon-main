@@ -1,0 +1,11 @@
+.detail_container{
+    display: flex;
+    width: fit-content;
+    flex-direction: column;    
+    align-items: center;
+    place-content: center;    
+    margin:3% 0 0 19%;
+    padding: 1% 5% 3% 5%;
+    background-color: rgb(148, 125, 125);
+    border-radius: 25px;
+}
