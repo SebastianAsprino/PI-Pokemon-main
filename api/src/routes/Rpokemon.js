@@ -60,6 +60,22 @@ Rpokemon.get('/pokemons/filter/:id', async (req, res) => {
       const sortedPokemonZA = allInfo.slice().sort((a, b) => b.name.localeCompare(a.name));
       res.status(200).send(sortedPokemonZA);
       break;
+    case '3': // filtro por createdByDB: true
+      const createdByDBTrue = allInfo.filter(pokemon => pokemon.createdByDB === true);
+      res.status(200).send(createdByDBTrue);
+      break;
+    case '4': // filtro por createdByDB: false
+      const createdByDBFalse = allInfo.filter(pokemon => pokemon.createdByDB === false);
+      res.status(200).send(createdByDBFalse);
+      break;
+      case '5': // ordenar por attack de mayor a menor
+      const sortedByAttackDesc = allInfo.slice().sort((a, b) => b.attack - a.attack);
+      res.status(200).send(sortedByAttackDesc);
+      break;
+    case '6': // ordenar por attack de menor a mayor
+      const sortedByAttackAsc = allInfo.slice().sort((a, b) => a.attack - b.attack);
+      res.status(200).send(sortedByAttackAsc);
+      break;
     default:
       res.status(400).send('Filtro no válido');
       break;

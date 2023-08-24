@@ -27,15 +27,4 @@ RTypes.get("/types/pokemon", async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-
-
-
-
 module.exports = RTypes;

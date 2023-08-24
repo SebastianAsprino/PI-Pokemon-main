@@ -17,5 +17,5 @@ module.exports = {
   getDBInfoType,
   GETPokemon,
   postPokemon,
-  GETType 
+  GETType
 };
