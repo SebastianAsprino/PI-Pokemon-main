@@ -7,7 +7,7 @@
 const fetch = require("node-fetch");
 
 const GETApiPokemon = async () => {
-  const Requests = 20; // los pokemos llegan por ID actualmente estoy trayendo solo 4
+  const Requests = 500; // los pokemos llegan por ID actualmente estoy trayendo solo 500
   const Pokemons = [];  
   for (let id = 1; id <= Requests; id++) {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
