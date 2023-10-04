@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { getDetail } from "../../redux/actions";
-import styles from "../Detail/Detail.module.css";
+
 
 
 function Detail() {
@@ -14,7 +14,7 @@ function Detail() {
   }, [dispatch, id]);
 
   return (
-    <div className={styles.detail_container}>
+    <div>
       <div>
         <button>
           <Link to="/home">HOME</Link>
