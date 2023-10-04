@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getPokemons } from "../../redux/actions";
 import Card from "../card/card";
 import Filter from "../filter/filter";
-import styles from "../Cards/Cards.module.css";
+//import styles from "../Cards/Cards.module.css";
 
 const Cards = () => {
   const dispatch = useDispatch();
@@ -20,11 +20,11 @@ const Cards = () => {
   }, []);
 
   return (
-    <div className={styles.cards_container}>
-      <div className={styles.card_filters}>
+    <div >
+      <div >
       <Filter/> 
       </div>
-      <div className={styles.cards}>
+      <div>
         {currentPokemon.map((individualPokemon) => (
           <Card
             id={individualPokemon.id}
@@ -34,7 +34,7 @@ const Cards = () => {
           />
         ))}
       </div>
-      <div className={styles.pagination}>
+      <div>
         <button onClick={() => setCurrentPage((prevPage) => prevPage - 1)} disabled={currentPage === 1}>
           Prev
         </button>
