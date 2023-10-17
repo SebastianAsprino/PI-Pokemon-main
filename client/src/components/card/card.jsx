@@ -1,17 +1,45 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-// import styles from '../Card/Card.module.css'
+import './Card.css'
 
-function Card({id, name, imagen,type}) {
+function Card({id, name, imagen, hp, attack, speed, type}) {
   return (
-    <div >        
-            <h5  >{name}</h5>                
-            <img  src={imagen}/>
-            <h5 >{type}</h5>     
-            <Link to={`/pokemons/${id}`} >
-                DETAILS
-            </Link>
-    </div>
+  <div>
+    <a>
+      <Link to={`/pokemons/${id}`} >
+      <div class="card">
+        <div class="content">
+          <div class="top">
+            <p>{name}</p>
+            <div class="color"></div>
+          </div>
+          <div class="middle">
+            <div>
+              <p>Type:</p> 
+              <p>{type}</p>
+            </div>
+            <img src={imagen} />
+          </div>
+          <div class="bottom">
+            <div>
+              <p>HP</p>
+              <p>{hp}</p>
+            </div>
+            <div>
+              <p>ATK</p>
+              <p>{attack}</p>
+            </div>
+            <div>
+              <p>SPD</p>
+              <p>{speed}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </Link>
+    </a>
+  </div>
+
   )
 }
 

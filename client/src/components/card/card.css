@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 250px;
+  width: 200px;
+  background: transparent; /* Fondo transparente */
+  box-shadow: 0px 6px 6px -3px rgba(0, 0, 0, 0.2), 0px 10px 14px 1px rgba(0, 0, 0, 0.14), 0px 4px 18px 3px rgba(0, 0, 0, 0.12);
+  border: none;
+  border-radius: 8px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+
+.content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: #595302;
+  border-radius: 8px;
+}
+
+.content > .top {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 20%;
+  background-color: #CDF27E;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.content > .top p {
+  font-weight: bold;
+  font-size: 16px;
+  color: #595302;
+}
+.content > .top .color {
+  height: 20px;
+  width: 20px;
+  margin-left: 5px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: url('/favicon.ico') 0 0 / 100%;
+}
+
+.content > .middle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40%;
+  background: linear-gradient(#CDF27E, #6F7302 75%);
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.content > .middle img {
+  width: 60%;
+}
+.content > .middle div > p:first-child {
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+.content > .middle div > p:last-child {
+  margin: 0;
+  font-weight: bold;
+}
+
+.content > .bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40%;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+.content > .bottom div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.content > .bottom div p:first-child {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+
+
