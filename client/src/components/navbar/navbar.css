@@ -1,7 +1,7 @@
 /* styles.css */
 .navbar {
-  background-color: #595302; /* Color de fondo de la barra de navegación */
-  color: #fff; /* Color del texto */
+  background-color: #fcf3f3; /* Color de fondo de la barra de navegación */
+  color: #0c0303; /* Color del texto */
   padding: 10px; /* Espaciado interno */
   display: flex;
   justify-content: space-evenly;
@@ -11,14 +11,14 @@
 }
 
 .navbar a {
-  color: #fff; /* Color del enlace */
+  color: #0c0303; /* Color del enlace */
   text-decoration: none; /* Eliminar subrayado de enlaces */
   margin: 0 10px; /* Espacio entre elementos del menú */
 }
 
 .navbar button {
-  background-color: #555; /* Color de fondo del botón */
-  color: #fff; /* Color del texto del botón */
+  background-color: #64d97b; /* Color de fondo del botón */
+  color: #0c0303; /* Color del texto del botón */
   border: none; /* Eliminar borde del botón */
   padding: 10px 20px; /* Espaciado interno del botón */
   cursor: pointer; /* Cambiar cursor al pasar por encima del botón */
@@ -27,7 +27,7 @@
 
 /* Estilo para el botón de GitHub */
 .navbar a.github {
-  background-color: #595302; /* Color de fondo del enlace GitHub */
+  background-color: #fcf3f3; /* Color de fondo del enlace GitHub */
 }
 
 /* Estilo para el botón Add Pokemon */
@@ -38,7 +38,7 @@
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #6F7302;
+  background-color: #fa1c1c;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -51,26 +51,24 @@
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #6F7302;
+  background-color: #c5c530;
   cursor: pointer;
+  border: transparent; 
   transition: border-color 0.25s; /* Color de fondo del botón HOME */
 }
 
-
-
 .navbar button.add-pokemon:hover {
-  border-color: #595302;
+  border-color: #ff8f8f;
 }
 .navbar button.add-pokemon:focus,
 .navbar button.add-pokemon:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-
-
 .navbar button.home {
-  border-color: #595302;
+  border-color: #ff8f8f;
 }
+
 .navbar button.home:focus,
 .navbar button.home:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

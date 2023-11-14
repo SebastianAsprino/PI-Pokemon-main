@@ -10,7 +10,7 @@ const Cards = () => {
   const dispatch = useDispatch();
   const allPokemons = useSelector((state) => state.pokemons);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
-  const pokemonPerPage = 20;
+  const pokemonPerPage = 18;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastPokemon = currentPage * pokemonPerPage;

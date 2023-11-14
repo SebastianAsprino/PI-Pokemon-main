@@ -17,13 +17,12 @@
   transition: transform 0.3s ease-in-out;
 }
 
-
 .content {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background-color: #595302;
+  background-color: #fcf3f3;
   border-radius: 8px;
 }
 
@@ -32,7 +31,7 @@
   justify-content: flex-end;
   align-items: center;
   height: 20%;
-  background-color: #CDF27E;
+  background-color: #fa1c1c;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
@@ -40,8 +39,9 @@
 .content > .top p {
   font-weight: bold;
   font-size: 16px;
-  color: #595302;
+  color: #0c0303;
 }
+
 .content > .top .color {
   height: 20px;
   width: 20px;
@@ -51,22 +51,46 @@
   background: url('/favicon.ico') 0 0 / 100%;
 }
 
+
+
+
+
+
+/* 
+Atributo style {
+  --text: #0c0303;
+  --bg: #fcf3f3;
+  --primary: #fa1c1c;
+  --secondary: #f3f3ce;
+  --accent: #c5c530;
+  --textcontrast: #64d97b;
+  --bgcontrast: #64d97b;
+  --primarycontrast: #ffdd00;
+  --secondarycontrast: #64d97b;
+  --accentcontrast: #ff8f8f;
+} */
+
+
+
 .content > .middle {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 40%;
-  background: linear-gradient(#CDF27E, #6F7302 75%);
+  background: linear-gradient(to bottom right, #ffdd00, #f3f3ce 100%);
   padding-left: 15px;
   padding-right: 15px;
 }
+
 .content > .middle img {
   width: 60%;
 }
+
 .content > .middle div > p:first-child {
   margin-bottom: 5px;
   font-size: 12px;
 }
+
 .content > .middle div > p:last-child {
   margin: 0;
   font-weight: bold;
@@ -80,16 +104,15 @@
   padding-left: 30px;
   padding-right: 30px;
 }
+
 .content > .bottom div {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
 .content > .bottom div p:first-child {
   font-weight: bold;
   margin-bottom: 5px;
   font-size: 12px;
 }
-
-
-
