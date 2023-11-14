@@ -6,10 +6,21 @@ const { DATABASE } = process.env;
 
 const sequelize = new Sequelize( DATABASE,
    {
-      logging: false, // set to console.log to see the raw SQL queries
-      native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+      // logging: false, // set to console.log to see the raw SQL queries
+      // native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+      dialect: 'postgres',
+      logging: false,
+      dialectOptions: {
+         ssl: {
+            require: true,
+            rejectUnauthorized: true,
+            ca: './ca.pem',
+         }
+      }
    }
+   
 );
+
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
