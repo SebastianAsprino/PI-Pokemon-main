@@ -31,7 +31,6 @@ export default function reducer(state = initialState, { type, payload }) {
       };    
     
     case 'GET_POKEMON_BY_NAME':
-      console.log(payload)
       return {
         ...state,
         pokemons: payload, 
