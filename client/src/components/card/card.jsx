@@ -1,46 +1,60 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-import './card.css'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import loader from "./loader.svg";
+import './card.css';
 
-function Card({id, name, imagen, hp, attack, speed, type}) {
+function Card({ id, name, imagen, hp, attack, speed, type }) {
+  const [loadingImage, setLoadingImage] = useState(true);
+
+  useEffect(() => {
+    setLoadingImage(true);
+
+    const image = new Image();
+    image.onload = () => {
+      setLoadingImage(false);
+    };
+    image.src = imagen;
+  }, [imagen]);
+
   return (
-  <div>
-    <a>
-      <Link to={`/pokemons/${id}`} >
-      <div class="card">
-        <div class="content">
-          <div class="top">
-            <p>{name}</p>
-            <div class="color"></div>
-          </div>
-          <div class="middle">
-            <div>
-              <p>Type:</p> 
-              <p>{type}</p>
+    <div>
+      <Link to={`/pokemons/${id}`}>
+        <div className="card">
+          <div className="content">
+            <div className="top">
+              <p>{name}</p>
+              <div className="color"></div>
             </div>
-            <img src={imagen} />
-          </div>
-          <div class="bottom">
-            <div>
-              <p>HP</p>
-              <p>{hp}</p>
+            <div className="middle">
+              <div>
+                <p>Type:</p>
+                <p>{type}</p>
+              </div>
+              {loadingImage ? (
+                <img src={loader} alt="Loading" />
+              ) : (
+                <img src={imagen} alt={name} />
+              )}
             </div>
-            <div>
-              <p>ATK</p>
-              <p>{attack}</p>
-            </div>
-            <div>
-              <p>SPD</p>
-              <p>{speed}</p>
+            <div className="bottom">
+              <div>
+                <p>HP</p>
+                <p>{hp}</p>
+              </div>
+              <div>
+                <p>ATK</p>
+                <p>{attack}</p>
+              </div>
+              <div>
+                <p>SPD</p>
+                <p>{speed}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </Link>
-    </a>
-  </div>
-
-  )
+    </div>
+  );
 }
 
-export default Card
+export default Card;
