@@ -8,3 +8,10 @@
   width: 200px; /* Ancho deseado de la tarjeta */
   margin: 10px; /* Espacio entre las tarjetas */
 }
+
+.pagination-buttons {
+  margin-bottom: 6px; /* Ajusta según sea necesario */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

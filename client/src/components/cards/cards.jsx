@@ -28,7 +28,7 @@ const Cards = () => {
 
   return (
     <div >
-      <div>
+      <div className="pagination-buttons">
         <button onClick={() => setCurrentPage((prevPage) => prevPage - 1)} disabled={currentPage === 1}>
           Prev
         </button>
@@ -41,7 +41,9 @@ const Cards = () => {
           <Loading />
         ) : (
           currentPokemon.map((individualPokemon) => (
-            <Card className="card"
+            <Card
+              key={individualPokemon.id}
+              className="card"
               id={individualPokemon.id}
               name={individualPokemon.name}
               imagen={individualPokemon.imagen}
