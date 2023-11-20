@@ -9,7 +9,7 @@ const NavBar = () => {
   }
 
   return (
-    <div className="navbar">
+    <nav className="navbar">
       <a className="github" href="https://github.com/SebastianAsprino/" target="_blank" rel="noopener noreferrer">
         GitHub
       </a>
@@ -19,7 +19,7 @@ const NavBar = () => {
         </button>
       </Link>
       <button className="home" onClick={loaderpage}>
-        HOME
+        Home
       </button>
       <div>
         <SearchBar />
@@ -27,7 +27,7 @@ const NavBar = () => {
       <div>
         <Filter />
       </div>
-    </div>
+    </nav>
   );
 };
 

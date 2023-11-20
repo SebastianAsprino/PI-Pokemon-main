@@ -15,7 +15,7 @@ const Filter = () => {
 
   return (
     <div>
-      <label htmlFor="filterSelect">Filtrar:</label>
+      <label htmlFor="filterSelect">Filter:</label>
       <select
         id="filterSelect"
         value={selectedFilter}
