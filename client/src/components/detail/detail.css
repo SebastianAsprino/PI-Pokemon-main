@@ -1,0 +1,20 @@
+/* detail.css */
+
+.container {
+  display: flex;
+  border: 2px solid #ccc; /* Borde para el contenedor */
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.textContainer {
+  flex: 1; /* El texto ocupa todo el espacio disponible en el contenedor */
+}
+
+.imageContainer {
+  flex: 1; /* La imagen ocupa todo el espacio disponible en el contenedor */
+  text-align: right; /* Alineación de la imagen a la derecha */
+  padding-top: 10%;
+}
+
+/* Agrega estilos adicionales según sea necesario */
