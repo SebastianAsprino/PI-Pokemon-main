@@ -33,7 +33,7 @@ export default function reducer(state = initialState, { type, payload }) {
     case 'GET_POKEMON_BY_NAME':
       return {
         ...state,
-        pokemons: payload, 
+        pokemons: payload 
       }
 
     case 'GET_TYPES':
