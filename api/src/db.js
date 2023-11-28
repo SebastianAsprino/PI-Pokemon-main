@@ -10,13 +10,13 @@ const sequelize = new Sequelize( DATABASE,
       // native: false, // lets Sequelize know we can use pg-native for ~30% more speed
       dialect: 'postgres',
       logging: false,
+      ssl: true,
       dialectOptions: {
          ssl: {
             require: true,
-            rejectUnauthorized: true,
-            ca: './ca.pem',
-         }
-      }
+            rejectUnauthorized: false,
+         },
+      },
    }
    
 );
