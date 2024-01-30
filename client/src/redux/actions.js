@@ -4,7 +4,7 @@
 
 export function getPokemons() {
   return async function (dispatch) {
-    await fetch("https://pokemon.2.us-1.fl0.io/pokemons")
+    await fetch(https://cute-erin-barracuda-fez.cyclic.app/pokemons")
       .then((data) => data.json())
       .then((data) => dispatch({ type: 'GET_ALL_POKEMONS', payload: data }));
   };
@@ -14,7 +14,7 @@ export function getPokemons() {
 
 export function getPokemonByName(payload) {
   return async function (dispatch) {
-    await fetch(`https://pokemon.2.us-1.fl0.io/pokemons/name/${payload}`)
+    await fetch(`https://cute-erin-barracuda-fez.cyclic.app/pokemons/name/${payload}`)
       .then((data) => data.json())
       .then((data) => dispatch({ type: 'GET_POKEMON_BY_NAME', payload: data }));
 };
@@ -22,7 +22,7 @@ export function getPokemonByName(payload) {
 
 export function getDetail(id) {
   return async function (dispatch) {
-    await fetch(`https://pokemon.2.us-1.fl0.io/pokemons/id/${id}`)
+    await fetch(`https://cute-erin-barracuda-fez.cyclic.app/pokemons/id/${id}`)
       .then((data) => data.json())
       .then((data) => dispatch({ type: 'GET_POKEMON_DETAIL', payload: data }));
 };
@@ -31,7 +31,7 @@ export function getDetail(id) {
 
 export function getfilter(id) {
   return async function (dispatch) {
-    await fetch(`https://pokemon.2.us-1.fl0.io/pokemons/filter/${id}`)
+    await fetch(`https://cute-erin-barracuda-fez.cyclic.app/pokemons/filter/${id}`)
       .then((data) => data.json())
       .then((data) => dispatch({ type: 'GET_POKEMON_FILTER', payload: data }));
 };
@@ -39,7 +39,7 @@ export function getfilter(id) {
 
 export function getTypes() {
   return async function (dispatch) {
-    await fetch('https://pokemon.2.us-1.fl0.io/types')
+    await fetch('https://cute-erin-barracuda-fez.cyclic.app/types')
       .then((data) => data.json())
       .then((data) => dispatch({ type: 'GET_TYPES', payload: data }));
 };
@@ -50,7 +50,7 @@ export function getTypes() {
 export function postpokemon(payload) {
   return function (dispatch) {
     try {
-      fetch('https://pokemon.2.us-1.fl0.iox/poke', {
+      fetch('https://cute-erin-barracuda-fez.cyclic.app/poke', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
