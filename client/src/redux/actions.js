@@ -4,7 +4,7 @@
 
 export function getPokemons() {
   return async function (dispatch) {
-    await fetch('https://cute-erin-barracuda-fez.cyclic.app/pokemons")
+    await fetch('https://cute-erin-barracuda-fez.cyclic.app/pokemons')
       .then((data) => data.json())
       .then((data) => dispatch({ type: 'GET_ALL_POKEMONS', payload: data }));
   };
