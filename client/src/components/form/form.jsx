@@ -1,87 +1,105 @@
-import React, { useState, useEffect } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { postpokemon, getPokemons, getTypes } from "../../redux/actions";
+import { postpokemon, getPokemons } from "../../redux/actions";
+
+const DEFAULT_IMAGE =
+  "https://w7.pngwing.com/pngs/897/749/png-transparent-pokemon-icon-design-symbol-sign-type-flat-game-cartoon-raining-thumbnail.png";
+
+const STAT_FIELDS = [
+  { name: "hp", label: "HP" },
+  { name: "attack", label: "Attack" },
+  { name: "defense", label: "Defense" },
+  { name: "speed", label: "Speed" },
+  { name: "height", label: "Height" },
+  { name: "weight", label: "Weight" },
+];
+
+const POKEMON_TYPES = [
+  "normal", "fighting", "flying", "poison", "ground", "rock", "bug", "ghost", "steel", "fire",
+  "water", "grass", "electric", "psychic", "ice", "dragon", "dark", "fairy", "unknown", "shadow",
+];
+
+const INITIAL_FORM = {
+  name: "",
+  imagen: "",
+  hp: "",
+  attack: "",
+  defense: "",
+  speed: "",
+  height: "",
+  weight: "",
+  types: [],
+};
 
 function CreatePokemon() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    id: "",
-    name: "",
-    imagen: "",
-    hp: "",
-    attack: "",
-    defense: "",
-    speed: "",
-    height: "",
-    weight: "",
-    types: []
-  });
-
+  const allPokemons = useSelector((state) => state.pokemons);
+  const [formData, setFormData] = useState(INITIAL_FORM);
   const [nameError, setNameError] = useState("");
 
-
-  const allPokemons = useSelector((state) => state.pokemons);
   useEffect(() => {
-    dispatch(getPokemons());
+    dispatch(getPokemons()).catch(() => {});
   }, [dispatch]);
 
-  const getNextId = () => {
-    const highestId = allPokemons.reduce((maxId, pokemon) => Math.max(maxId, pokemon.id), 0);
-    return highestId + 1;
-  };
+  // El ID del nuevo pokemon es el siguiente al mayor ID existente.
+  const nextId = useMemo(
+    () => allPokemons.reduce((maxId, pokemon) => Math.max(maxId, pokemon.id), 0) + 1,
+    [allPokemons],
+  );
 
-  useEffect(() => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      id: getNextId().toString()
-    }));
-  }, [allPokemons]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const isNameAvailable = allPokemons.every(pokemon => pokemon.name !== formData.name);
+    const name = formData.name.trim();
+    const isNameAvailable = allPokemons.every((pokemon) => pokemon.name !== name);
 
-    if (!formData.name) {
+    if (!name) {
       setNameError("Please enter a name");
-    } else if (!isNameAvailable) {
+      return;
+    }
+    if (!isNameAvailable) {
       setNameError("Name is not available");
-    } else {
+      return;
+    }
 
-      const finalFormData = {
+    const stats = Object.fromEntries(
+      STAT_FIELDS.map(({ name: field }) => [field, formData[field] || 0]),
+    );
+
+    try {
+      await dispatch(postpokemon({
         ...formData,
-        imagen: formData.imagen || "https://w7.pngwing.com/pngs/897/749/png-transparent-pokemon-icon-design-symbol-sign-type-flat-game-cartoon-raining-thumbnail.png",
-        hp: formData.hp || 0,
-        attack: formData.attack || 0,
-        defense: formData.defense || 0,
-        speed: formData.speed || 0,
-        height: formData.height || 0,
-        weight: formData.weight || 0
-      };
-
-      dispatch(postpokemon(finalFormData));
+        ...stats,
+        id: nextId,
+        name,
+        imagen: formData.imagen || DEFAULT_IMAGE,
+      }));
       navigate("/home");
+    } catch (error) {
+      setNameError(`No se pudo crear el pokemon: ${error.message}`);
     }
   };
 
+  const handleStatChange = (field) => (e) => {
+    const { value } = e.target;
+    if (value === "") {
+      setFormData((prev) => ({ ...prev, [field]: "" }));
+      return;
+    }
+    const newValue = parseInt(value, 10);
+    if (!Number.isNaN(newValue) && newValue >= 0) {
+      setFormData((prev) => ({ ...prev, [field]: newValue }));
+    }
+  };
 
   const handleTypeChange = (e) => {
-    const value = e.target.value;
-    const isChecked = e.target.checked;
-    
-    if (isChecked) {
-      setFormData(prevData => ({
-        ...prevData,
-        types: [...prevData.types, value]
-      }));
-    } else {
-      setFormData(prevData => ({
-        ...prevData,
-        types: prevData.types.filter(type => type !== value)
-      }));
-    }
+    const { value, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      types: checked ? [...prev.types, value] : prev.types.filter((type) => type !== value),
+    }));
   };
 
   return (
@@ -89,315 +107,56 @@ function CreatePokemon() {
       <h1>Create a New Pokemon</h1>
       {nameError && <p style={{ color: "red" }}>{nameError}</p>}
       <form onSubmit={handleSubmit}>
-        <label>Name:</label>
+        <label htmlFor="pokemon-name">Name:</label>
         <input
+          id="pokemon-name"
           type="text"
-          placeholder='your poke name'
+          placeholder="your poke name"
           value={formData.name}
           onChange={(e) => {
-            setFormData({ ...formData, name: e.target.value });
+            setFormData((prev) => ({ ...prev, name: e.target.value }));
             setNameError("");
           }}
         />
-        <label>Image:</label>
+        <label htmlFor="pokemon-imagen">Image:</label>
         <input
+          id="pokemon-imagen"
           type="text"
-          placeholder='URL from your pokemon'
+          placeholder="URL from your pokemon"
           value={formData.imagen}
-          onChange={(e) => setFormData({ ...formData, imagen: e.target.value })}
+          onChange={(e) => setFormData((prev) => ({ ...prev, imagen: e.target.value }))}
         />
-        <label>HP:</label>
-        <input
-          type="number"
-          value={formData.hp}
-          onChange={(e) => {
-            const newValue = parseInt(e.target.value);
-            if (!isNaN(newValue) && newValue >= 0) {
-              setFormData({ ...formData, hp: newValue });
-            }
-          }}
-        />
-        <label>Attack:</label>
-        <input
-          type="number"
-          value={formData.attack}
-          onChange={(e) => {
-            const newValue = parseInt(e.target.value);
-            if (!isNaN(newValue) && newValue >= 0) {
-              setFormData({ ...formData, attack: newValue });
-            }
-          }}
-        />
-        
-        <label>Defense:</label>
-        <input
-          type="number"
-          value={formData.defense}
-          onChange={(e) => {
-            const newValue = parseInt(e.target.value);
-            if (!isNaN(newValue) && newValue >= 0) {
-              setFormData({ ...formData, defense: newValue });
-            }
-          }}
-        />
-        
-        <label>Speed:</label>
-        <input
-          type="number"
-          value={formData.speed}
-          onChange={(e) => {
-            const newValue = parseInt(e.target.value);
-            if (!isNaN(newValue) && newValue >= 0) {
-              setFormData({ ...formData, speed: newValue });
-            }
-          }}
-        />
-        
-        <label>Height:</label>
-        <input
-          type="number"
-          value={formData.height}
-          onChange={(e) => {
-            const newValue = parseInt(e.target.value);
-            if (!isNaN(newValue) && newValue >= 0) {
-              setFormData({ ...formData, height: newValue });
-            }
-          }}
-        />
-        
-        <label>Weight:</label>
-        <input
-          type="number"
-          value={formData.weight}
-          onChange={(e) => {
-            const newValue = parseInt(e.target.value);
-            if (!isNaN(newValue) && newValue >= 0) {
-              setFormData({ ...formData, weight: newValue });
-            }
-          }}
-        />
-        <label>Types:</label>
-        <div>
-          <label>
+
+        {STAT_FIELDS.map(({ name, label }) => (
+          <Fragment key={name}>
+            <label htmlFor={`pokemon-${name}`}>{label}:</label>
             <input
-              type="checkbox"
-              value="normal"
-              checked={formData.types.includes("normal")}
-              onChange={handleTypeChange}
+              id={`pokemon-${name}`}
+              type="number"
+              min="0"
+              value={formData[name]}
+              onChange={handleStatChange(name)}
             />
-            normal
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="fighting"
-              checked={formData.types.includes("fighting")}
-              onChange={handleTypeChange}
-            />
-            fighting
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="flying"
-              checked={formData.types.includes("flying")}
-              onChange={handleTypeChange}
-            />
-            flying
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="poison"
-              checked={formData.types.includes("poison")}
-              onChange={handleTypeChange}
-            />
-            poison
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="ground"
-              checked={formData.types.includes("ground")}
-              onChange={handleTypeChange}
-            />
-            ground
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="rock"
-              checked={formData.types.includes("rock")}
-              onChange={handleTypeChange}
-            />
-            rock
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="bug"
-              checked={formData.types.includes("bug")}
-              onChange={handleTypeChange}
-            />
-            bug
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="ghost"
-              checked={formData.types.includes("ghost")}
-              onChange={handleTypeChange}
-            />
-            ghost
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="steel"
-              checked={formData.types.includes("steel")}
-              onChange={handleTypeChange}
-            />
-            steel
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="fire"
-              checked={formData.types.includes("fire")}
-              onChange={handleTypeChange}
-            />
-            fire
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="water"
-              checked={formData.types.includes("water")}
-              onChange={handleTypeChange}
-            />
-            water
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="grass"
-              checked={formData.types.includes("grass")}
-              onChange={handleTypeChange}
-            />
-            grass
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="electric"
-              checked={formData.types.includes("electric")}
-              onChange={handleTypeChange}
-            />
-            electric
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="psychic"
-              checked={formData.types.includes("psychic")}
-              onChange={handleTypeChange}
-            />
-            psychic
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="ice"
-              checked={formData.types.includes("ice")}
-              onChange={handleTypeChange}
-            />
-            ice
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="dragon"
-              checked={formData.types.includes("dragon")}
-              onChange={handleTypeChange}
-            />
-            dragon
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="dark"
-              checked={formData.types.includes("dark")}
-              onChange={handleTypeChange}
-            />
-            dark
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="fairy"
-              checked={formData.types.includes("fairy")}
-              onChange={handleTypeChange}
-            />
-            fairy
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="unknown"
-              checked={formData.types.includes("unknown")}
-              onChange={handleTypeChange}
-            />
-            unknown
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              value="shadow"
-              checked={formData.types.includes("shadow")}
-              onChange={handleTypeChange}
-            />
-            shadow
-          </label>
-        </div>
-        
+          </Fragment>
+        ))}
+
+        <fieldset>
+          <legend>Types:</legend>
+          {POKEMON_TYPES.map((type) => (
+            <div key={type}>
+              <label>
+                <input
+                  type="checkbox"
+                  value={type}
+                  checked={formData.types.includes(type)}
+                  onChange={handleTypeChange}
+                />
+                {type}
+              </label>
+            </div>
+          ))}
+        </fieldset>
+
         <button type="submit">Create Pokemon</button>
       </form>
       <Link to="/home">Back to home</Link>

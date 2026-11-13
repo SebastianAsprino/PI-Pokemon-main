@@ -25,17 +25,18 @@ describe('Ruta POST/poke', () => {
       .post('/poke')
       .send(newPokemon);
 
-    expect(response.status).to.equal(200);
+    expect(response.status).to.equal(201);
     expect(response.body).to.deep.equal({ msg: 'Pokemon creado' });
   });
 
-  it('retorna "Error al crear el pokemon" si no se pudo crear el pokemon', async () => {
+  it('retorna 400 con el detalle de los errores si el body es inválido', async () => {
     const invalidPokemon = {};
     const response = await request(app)
       .post('/poke')
       .send(invalidPokemon);
 
-    expect(response.status).to.equal(500);
-    expect(response.body).to.deep.equal({ error: 'Error al crear el pokemon' });
+    expect(response.status).to.equal(400);
+    expect(response.body.error).to.equal('Datos inválidos');
+    expect(response.body.details).to.be.an('array').that.is.not.empty;
   });
 });

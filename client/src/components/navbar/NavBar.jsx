@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import SearchBar from "../searchbar/searchbar";
 import Filter from "../filter/filter";
-import "./navbar.css"; // Importa el archivo CSS que creaste
+import "./navbar.css";
 
 const NavBar = () => {
   function loaderpage() {

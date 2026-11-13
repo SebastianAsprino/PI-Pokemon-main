@@ -1,20 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import loader from "./loader.svg";
+import useImageLoaded from '../../hooks/useImageLoaded';
+import loader from './loader.svg';
 import './card.css';
 
 function Card({ id, name, imagen, hp, attack, speed, type }) {
-  const [loadingImage, setLoadingImage] = useState(true);
-
-  useEffect(() => {
-    setLoadingImage(true);
-
-    const image = new Image();
-    image.onload = () => {
-      setLoadingImage(false);
-    };
-    image.src = imagen;
-  }, [imagen]);
+  const imageLoaded = useImageLoaded(imagen);
 
   return (
     <div>
@@ -30,10 +21,10 @@ function Card({ id, name, imagen, hp, attack, speed, type }) {
                 <p>Type:</p>
                 <p>{type}</p>
               </div>
-              {loadingImage ? (
-                <img src={loader} alt="Loading" />
-              ) : (
+              {imageLoaded ? (
                 <img src={imagen} alt={name} />
+              ) : (
+                <img src={loader} alt="Loading" />
               )}
             </div>
             <div className="bottom">
@@ -56,5 +47,15 @@ function Card({ id, name, imagen, hp, attack, speed, type }) {
     </div>
   );
 }
+
+Card.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  name: PropTypes.string.isRequired,
+  imagen: PropTypes.string,
+  hp: PropTypes.number,
+  attack: PropTypes.number,
+  speed: PropTypes.number,
+  type: PropTypes.string,
+};
 
 export default Card;

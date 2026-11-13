@@ -1,21 +1,21 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "",
+  "description": "API REST de Pokemons: Express + Sequelize sobre PostgreSQL, con datos iniciales de la PokeAPI",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha --reporter spec ./tests/*.spec.js "
+    "dev": "nodemon index.js",
+    "test": "mocha --reporter spec ./tests/*.spec.js",
+    "test:unit": "mocha --reporter spec ./tests/post.spec.js ./tests/validatePokemon.spec.js",
+    "coverage": "nyc mocha ./tests/*.spec.js"
   },
-  "author": "Henry",
+  "author": "Sebastian Asprino",
   "license": "ISC",
   "engines": {
-    "node": ">=12.18.3",
-    "npm": ">=6.14.6"
+    "node": ">=18"
   },
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -30,7 +30,6 @@
     "nodemon": "^3.0.1",
     "nyc": "^15.1.0",
     "sinon": "^15.2.0",
-    "supertest": "^6.0.1",
-    "supertest-session": "^4.1.0"
+    "supertest": "^6.0.1"
   }
 }

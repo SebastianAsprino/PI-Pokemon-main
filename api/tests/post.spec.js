@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const { postPokemon } = require('../src/controllers');
-const { Pokemon,Type } = require('../src/db');
+const { Pokemon, Type } = require('../src/db');
 
 describe('postPokemon', () => {
   afterEach(() => {
@@ -30,23 +30,14 @@ describe('postPokemon', () => {
 
     createStub.returns({ addType: addTypeStub });
 
-    const result = await postPokemon(
-      mockPokemonData.id,
-      mockPokemonData.name,
-      mockPokemonData.imagen,
-      mockPokemonData.hp,
-      mockPokemonData.attack,
-      mockPokemonData.defense,
-      mockPokemonData.speed,
-      mockPokemonData.height,
-      mockPokemonData.weight,
-      ['grass', 'poison']
-    );
+    const result = await postPokemon({ ...mockPokemonData, types: ['grass', 'poison'] });
 
     expect(result).to.be.undefined;
     expect(createStub.calledOnce).to.be.true;
     expect(findAllStub.calledOnce).to.be.true;
     expect(addTypeStub.calledOnce).to.be.true;
     expect(addTypeStub.firstCall.args[0]).to.deep.equal(mockTypes);
+    expect(createStub.firstCall.args[0].createdByDB).to.be.true;
+    expect(findAllStub.firstCall.args[0]).to.deep.equal({ where: { name: ['grass', 'poison'] } });
   });
 });

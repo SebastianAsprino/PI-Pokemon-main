@@ -1,50 +1,31 @@
-
+import {
+  GET_ALL_POKEMONS,
+  GET_POKEMON_BY_NAME,
+  GET_POKEMON_DETAIL,
+  GET_POKEMON_FILTER,
+  GET_TYPES,
+} from './actionTypes';
 
 const initialState = {
   pokemons: [],
-  detail:[],
-  types:[]
-
+  detail: {},
+  types: [],
 };
-
 
 export default function reducer(state = initialState, { type, payload }) {
   switch (type) {
+    case GET_ALL_POKEMONS:
+    case GET_POKEMON_FILTER:
+    case GET_POKEMON_BY_NAME:
+      return { ...state, pokemons: payload };
 
-    case 'GET_ALL_POKEMONS':
-      return {
-        ...state,
-        pokemons: payload
-      };
-    
+    case GET_POKEMON_DETAIL:
+      return { ...state, detail: payload };
 
-    case 'GET_POKEMON_DETAIL':
-      return {
-        ...state,
-        detail: payload
-      };    
-
-    case 'GET_POKEMON_FILTER':
-      return {
-        ...state,
-        pokemons: payload
-      };    
-    
-    case 'GET_POKEMON_BY_NAME':
-      return {
-        ...state,
-        pokemons: payload 
-      }
-
-    case 'GET_TYPES':
-      return {
-        ...state,
-        types: payload
-      };
-
+    case GET_TYPES:
+      return { ...state, types: payload };
 
     default:
       return state;
   }
-
 }

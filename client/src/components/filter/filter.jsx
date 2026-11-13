@@ -1,41 +1,39 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { getfilter } from "../../redux/actions";
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { getfilter, getPokemons } from '../../redux/actions';
 
+const FILTER_OPTIONS = [
+  { value: '', label: 'Mostrar todos' },
+  { value: '1', label: 'filtro de A a Z' },
+  { value: '2', label: 'filtro de Z a A' },
+  { value: '3', label: 'createdByDB: true' },
+  { value: '4', label: 'createdByDB: false' },
+  { value: '5', label: 'attack de mayor a menor' },
+  { value: '6', label: 'attack de menor a mayor' },
+];
 
 const Filter = () => {
   const dispatch = useDispatch();
-  const [selectedFilter, setSelectedFilter] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState('');
 
   const handleFilterChange = (e) => {
     const selectedValue = e.target.value;
     setSelectedFilter(selectedValue);
-    dispatch(getfilter(selectedValue));
+    // "Mostrar todos" no es un filtro de la API: recarga la lista completa.
+    const action = selectedValue ? getfilter(selectedValue) : getPokemons();
+    dispatch(action).catch(() => {});
   };
 
   return (
     <div>
       <label htmlFor="filterSelect">Filter:</label>
-      <select
-        id="filterSelect"
-        value={selectedFilter}
-        onChange={handleFilterChange}
-      >
-        <option value="">Mostrar todos</option>
-        <option value="1">filtro de A a Z</option>
-        <option value="2">filtro de Z a A</option>
-        <option value="3">createdByDB: true</option>
-        <option value="4">createdByDB: false</option>
-        <option value="5">attack de mayor a menor</option>
-        <option value="6">attack de menor a mayor</option>
+      <select id="filterSelect" value={selectedFilter} onChange={handleFilterChange}>
+        {FILTER_OPTIONS.map(({ value, label }) => (
+          <option key={value || 'all'} value={value}>{label}</option>
+        ))}
       </select>
     </div>
   );
 };
 
 export default Filter;
-
-
-
-
-

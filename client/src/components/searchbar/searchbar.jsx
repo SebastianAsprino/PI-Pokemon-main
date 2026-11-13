@@ -1,35 +1,39 @@
-import React, { useState } from 'react'
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getPokemonByName } from '../../redux/actions';
-import { useNavigate } from 'react-router-dom';
 
 export default function SearchBar() {
-    const navigate = useNavigate()
-    const dispatch = useDispatch();
-    const [pokemon, setPokemon] = useState('');
+  const dispatch = useDispatch();
+  const [pokemon, setPokemon] = useState('');
+  const [message, setMessage] = useState('');
 
-    function handleSubmit (event){
-        event.preventDefault();
-        if (pokemon.length > 0){dispatch(getPokemonByName(pokemon))
-        setPokemon('');
-        event.target.reset();}
-        else{
-            alert('not valide', window.location.reload())
-            
-        }
+  function handleSubmit(event) {
+    event.preventDefault();
+    const name = pokemon.trim();
+    if (!name) {
+      setMessage('Escribí un nombre para buscar');
+      return;
     }
 
-    function handleSearch(event){
-        event.preventDefault();
-        setPokemon(event.target.value)
-    }
+    setMessage('');
+    dispatch(getPokemonByName(name))
+      .then(() => setPokemon(''))
+      .catch(() => setMessage('Pokemon no encontrado'));
+  }
 
   return (
     <div>
-        <form onSubmit={(event)=>handleSubmit(event)} >
-          <input  type="text" placeholder='Buscar pokemon' onChange={(event)=> handleSearch(event)}/>
-          <button type='submit'>SEARCH</button>
-        </form>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Buscar pokemon"
+          aria-label="Buscar pokemon"
+          value={pokemon}
+          onChange={(event) => setPokemon(event.target.value)}
+        />
+        <button type="submit">SEARCH</button>
+      </form>
+      {message && <small role="alert">{message}</small>}
     </div>
-  )
+  );
 }

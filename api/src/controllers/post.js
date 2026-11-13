@@ -1,30 +1,35 @@
-// //      ____  ____  ___________   
-// //     / __ \/ __ \/ ___/_  __/   
-// //    / /_/ / / / /\__ \ / /      
-// //   / ____/ /_/ /___/ // /       
-// //  /_/    \____//____//_/ 
+//      ____  ____  ___________
+//     / __ \/ __ \/ ___/_  __/
+//    / /_/ / / / /\__ \ / /
+//   / ____/ /_/ /___/ // /
+//  /_/    \____//____//_/
 
-const { Pokemon, Type } = require("../db");
+const { Pokemon, Type } = require('../db');
 
-const postPokemon = async (id, name, imagen, hp, attack, defense, speed, height, weight, types) => {  
-    let CreatePokemon = await Pokemon.create({
-      id: id,
-      name: name,
-      imagen: imagen,
-      hp: hp,
-      attack: attack,
-      defense: defense,
-      speed: speed,
-      height: height,
-      weight: weight,
-      createdByDB: true  
+/**
+ * Crea un pokemon en la DB (marcado como createdByDB) y lo asocia con los tipos indicados.
+ */
+const postPokemon = async ({
+  id, name, imagen, hp, attack, defense, speed, height, weight, types = [],
+}) => {
+  const createdPokemon = await Pokemon.create({
+    id,
+    name,
+    imagen,
+    hp,
+    attack,
+    defense,
+    speed,
+    height,
+    weight,
+    createdByDB: true,
   });
-  let Types = await Type.findAll({   
+  const pokemonTypes = await Type.findAll({
     where: { name: types },
-  }); 
-  return await CreatePokemon.addType(Types);
+  });
+  return createdPokemon.addType(pokemonTypes);
 };
 
-module.exports = { 
-  postPokemon
+module.exports = {
+  postPokemon,
 };

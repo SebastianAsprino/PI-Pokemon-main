@@ -18,15 +18,27 @@
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-require("dotenv").config();
-// const { PORT } = process.env;
+require('dotenv').config();
+
+const { DATABASE } = process.env;
+const PORT = Number(process.env.PORT) || 8080;
+
+if (!DATABASE) {
+  console.error('Falta la variable de entorno DATABASE (ver .env.example)'); // eslint-disable-line no-console
+  process.exit(1);
+}
 
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 
-// Syncing all the models at once.
-conn.sync().then(() => { // para limpiar la DataBase conn.sync({ force: true }).then(() => {
-  server.listen(8080, () => {
-    console.log('%s listening at 8080'); // eslint-disable-line no-console
+// Sincroniza los modelos con la DB. Para recrear las tablas: conn.sync({ force: true }).
+conn.sync()
+  .then(() => {
+    server.listen(PORT, () => {
+      console.log(`API escuchando en el puerto ${PORT}`); // eslint-disable-line no-console
+    });
+  })
+  .catch((error) => {
+    console.error('No se pudo conectar a la base de datos:', error.message); // eslint-disable-line no-console
+    process.exit(1);
   });
-});
